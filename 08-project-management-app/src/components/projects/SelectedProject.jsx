@@ -1,4 +1,4 @@
-import Tasks from "./Tasks.jsx";
+import Tasks from "../tasks/Tasks.jsx";
 
 export default function SelectedProject({ 
     project, 
