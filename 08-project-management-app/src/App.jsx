@@ -13,7 +13,7 @@ function App() {
   });
 
   function handleAddTask(text) {
-    setProjectsState(prevState => {
+    setProjectsState((prevState) => {
       const taskId = Math.random();
       const newTask = {
         text: text,
@@ -28,12 +28,19 @@ function App() {
     });
   }
 
-  function handleDeleteTask() {
-
+  function handleDeleteTask(id) {
+    setProjectsState((prevState) => {
+      return {
+        ...prevState,
+        tasks: prevState.tasks.filter(
+          (task) => task.id !== id
+        )
+      };
+    });
   }
 
   function handleSelectProject(id) {
-    setProjectsState(prevState => {
+    setProjectsState((prevState) => {
       return {
         ...prevState,
         selectedProjectId: id
@@ -42,7 +49,7 @@ function App() {
   }
 
   function handleStartAddProject() {
-    setProjectsState(prevState => {
+    setProjectsState((prevState) => {
       return {
         ...prevState,
         selectedProjectId: null
@@ -51,7 +58,7 @@ function App() {
   }
 
   function handleCancelAddProject() {
-    setProjectsState(prevState => {
+    setProjectsState((prevState) => {
       return {
         ...prevState,
         selectedProjectId: undefined
@@ -60,7 +67,7 @@ function App() {
   }
 
   function handleAddProject( projectData ) {
-    setProjectsState(prevState => {
+    setProjectsState((prevState) => {
       const projectId = Math.random();
       const newProject = {
         ...projectData,
@@ -76,7 +83,7 @@ function App() {
   }
 
   function handleDeleteProject() {
-    setProjectsState(prevState => {
+    setProjectsState((prevState) => {
       return {
         ...prevState,
         selectedProjectId: undefined,
@@ -102,7 +109,9 @@ function App() {
   );
 
   if(projectsState.selectedProjectId === null) {
-    content = <NewProject onAdd={handleAddProject} onCancel={handleCancelAddProject} />
+    content = (
+      <NewProject onAdd={handleAddProject} onCancel={handleCancelAddProject} />
+    );
   } else if(projectsState.selectedProjectId === undefined) {
     content =  <NoProjectSelected onStartAddProject={handleStartAddProject} />
   }
@@ -113,6 +122,7 @@ function App() {
         onStartAddProject={handleStartAddProject} 
         projects={projectsState.projects}
         onSelectProject={handleSelectProject}
+        selectedProjectId={projectsState.selectedProjectId}
       />
       {content}
     </main>
